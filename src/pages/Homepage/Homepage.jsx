@@ -5,7 +5,7 @@ import ContactList from '../../components/ContactList/ContactList';
 
 const Homepage = () => {
   return (
-    <div className={css.appContainer}>
+    <div className={css.pageContainer}>
       <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
