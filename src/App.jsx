@@ -1,11 +1,18 @@
-import css from './App.module.css';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactForm from './components/ContactForm/ContactForm';
-import ContactList from './components/ContactList/ContactList';
-
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchContacts } from './redux/contacts/operations';
+import { Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import Loader from './components/Loader';
+import Navigation from './components/Navigation/Navigation';
+
+const HomePage = lazy(() => import('./pages/Homepage/Homepage'));
+const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage'));
+const ContactsPage = lazy(() => import('./pages/ContactsPage/ContactsPage'));
+const RegistrationPage = lazy(() =>
+  import('./pages/RegistrationPage/RegistrationPage')
+);
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,12 +21,22 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className={css.appContainer}>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
+    <>
+      <header>
+        <Navigation />
+      </header>
+      <main>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/contacts" element={<ContactsPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </main>
+    </>
   );
 };
 export default App;
