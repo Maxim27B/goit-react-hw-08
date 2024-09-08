@@ -18,3 +18,12 @@
     color: rgb(0, 106, 255);
     text-decoration: underline;
 }
+
+.welcomeText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    font-size: larger;
+    margin-left: auto;
+}

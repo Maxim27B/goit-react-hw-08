@@ -3,22 +3,21 @@ import * as Yup from 'yup';
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import { nanoid } from 'nanoid';
 
-import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contacts/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../redux/auth/operations';
+import { selectAuthError } from '../../redux/auth/selectors';
 
 const RegistrationPage = () => {
+  const isError = useSelector(selectAuthError);
+  const dispatch = useDispatch();
+
   const handleSubmit = (values, actions) => {
-    // onAddContact(values);
+    dispatch(register(values));
     actions.resetForm();
   };
 
-  // const dispatch = useDispatch();
-  // const onAddContact = values => {
-  //   dispatch(addContact(values));
-  // };
-
   const nameId = nanoid();
-  const numberId = nanoid();
+  const emailId = nanoid();
   const passwordId = nanoid();
 
   const RegisterValidationSchema = Yup.object().shape({
@@ -59,8 +58,8 @@ const RegistrationPage = () => {
             />
           </div>
           <div className={css.inputContainer}>
-            <label htmlFor={numberId}>Email</label>
-            <Field type="text" name="email" id={numberId}></Field>
+            <label htmlFor={emailId}>Email</label>
+            <Field type="text" name="email" id={emailId}></Field>
             <ErrorMessage
               className={css.errorMessage}
               name="email"
@@ -79,6 +78,11 @@ const RegistrationPage = () => {
           <button type="submit" className={css.formBtn}>
             Sign up
           </button>
+          {isError && (
+            <p className={css.errorMessage}>
+              User with this email is already registred
+            </p>
+          )}
         </Form>
       </Formik>
     </div>
