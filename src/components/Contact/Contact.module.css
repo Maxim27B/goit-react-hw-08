@@ -1,9 +1,11 @@
 .contactContainer {
-    border: 2px solid black;
     display: flex;
-    border-radius: 4px;
     flex-direction: column;
+    height: 40px;
+    justify-content: center;
     min-width: 230px;
+    border: 2px solid #000000;
+    border-radius: 4px;
     padding: 4px;
     position: relative;
 }

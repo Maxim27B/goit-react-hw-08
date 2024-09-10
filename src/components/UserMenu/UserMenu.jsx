@@ -1,11 +1,18 @@
 import css from './UserMenu.module.css';
 import clsx from 'clsx';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors';
+import { logout } from '../../redux/auth/operations';
 
 const UserMenu = () => {
   const user = useSelector(selectAuthUser);
+
+  const dispatch = useDispatch();
+  const onLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <>
       <NavLink
@@ -17,6 +24,9 @@ const UserMenu = () => {
         Contacts
       </NavLink>
       <p className={css.welcomeText}>Hello, {user.name}</p>
+      <button type="button" onClick={onLogout}>
+        Log Out
+      </button>
     </>
   );
 };

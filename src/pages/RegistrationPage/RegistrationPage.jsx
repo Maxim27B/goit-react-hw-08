@@ -80,7 +80,7 @@ const RegistrationPage = () => {
           </button>
           {isError && (
             <p className={css.errorMessage}>
-              User with this email is already registred
+              The user with this email is already registred
             </p>
           )}
         </Form>

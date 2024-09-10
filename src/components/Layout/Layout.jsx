@@ -1,10 +1,11 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Suspense } from 'react';
-import css from './Layout.module.css';
 
 import Loader from '../Loader';
 import AppBar from '../AppBar/AppBar';
+import RestrictedRoute from '../RestrictedRoute';
+import PrivateRoute from '../PrivateRoute';
 
 const HomePage = lazy(() => import('../../pages/Homepage/Homepage'));
 const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
@@ -28,9 +29,18 @@ const Layout = () => {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/contacts" element={<ContactsPage />} />
-            <Route path="/register" element={<RegistrationPage />} />
+            <Route
+              path="/contacts"
+              element={<PrivateRoute component={<ContactsPage />} />}
+            />
+            <Route
+              path="/login"
+              element={<RestrictedRoute component={<LoginPage />} />}
+            />
+            <Route
+              path="/register"
+              element={<RestrictedRoute component={<RegistrationPage />} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

@@ -3,3 +3,11 @@
     gap: 10px;
     flex-wrap: wrap;
 }
+
+.emptyText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+    min-width: 600px;
+}
