@@ -2,19 +2,31 @@ import css from './ContactForm.module.css';
 import * as Yup from 'yup';
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import { nanoid } from 'nanoid';
+import toast from 'react-hot-toast';
 
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 
 const ContactForm = () => {
-  const handleSubmit = (values, actions) => {
-    onAddContact(values);
-    actions.resetForm();
-  };
-
   const dispatch = useDispatch();
-  const onAddContact = values => {
-    dispatch(addContact(values));
+
+  const onAddContact = (values, actions) => {
+    dispatch(addContact(values))
+      .unwrap()
+      .then(() => {
+        toast.success('Contact was added successfully', {
+          style: {
+            border: '1px solid rgb(0, 106, 255)',
+            padding: '16px',
+            color: 'rgb(0, 106, 255)',
+          },
+          iconTheme: {
+            primary: 'rgb(0, 226, 45)',
+            secondary: '#FFFAEE',
+          },
+        });
+      });
+    actions.resetForm();
   };
 
   const nameId = nanoid();
@@ -37,13 +49,18 @@ const ContactForm = () => {
         name: '',
         number: '',
       }}
-      onSubmit={handleSubmit}
+      onSubmit={onAddContact}
       validationSchema={validationSchema}
     >
       <Form className={css.form}>
         <div className={css.inputContainer}>
           <label htmlFor={nameId}>Name</label>
-          <Field type="text" name="name" id={nameId}></Field>
+          <Field
+            type="text"
+            name="name"
+            id={nameId}
+            className={css.input}
+          ></Field>
           <ErrorMessage
             className={css.errorMessage}
             name="name"
@@ -52,7 +69,12 @@ const ContactForm = () => {
         </div>
         <div className={css.inputContainer}>
           <label htmlFor={numberId}>Number</label>
-          <Field type="text" name="number" id={numberId}></Field>
+          <Field
+            type="text"
+            name="number"
+            id={numberId}
+            className={css.input}
+          ></Field>
           <ErrorMessage
             className={css.errorMessage}
             name="number"

@@ -6,13 +6,28 @@ import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth/operations';
 import { selectAuthError } from '../../redux/auth/selectors';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
   const isError = useSelector(selectAuthError);
   const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(login(values));
+  const onLogin = (values, actions) => {
+    dispatch(login(values))
+      .unwrap()
+      .then(() => {
+        toast.success('Login was successful', {
+          style: {
+            border: '1px solid rgb(0, 106, 255)',
+            padding: '16px',
+            color: 'rgb(0, 106, 255)',
+          },
+          iconTheme: {
+            primary: 'rgb(0, 226, 45)',
+            secondary: '#FFFAEE',
+          },
+        });
+      });
     actions.resetForm({ values: { ...values, password: '' } });
   };
 
@@ -38,13 +53,18 @@ const LoginPage = () => {
           email: '',
           password: '',
         }}
-        onSubmit={handleSubmit}
+        onSubmit={onLogin}
         validationSchema={LoginValidationSchema}
       >
         <Form className={css.form}>
           <div className={css.inputContainer}>
             <label htmlFor={emailId}>Email</label>
-            <Field type="text" name="email" id={emailId}></Field>
+            <Field
+              type="text"
+              name="email"
+              id={emailId}
+              className={css.input}
+            />
             <ErrorMessage
               className={css.errorMessage}
               name="email"
@@ -53,7 +73,12 @@ const LoginPage = () => {
           </div>
           <div className={css.inputContainer}>
             <label htmlFor={passwordId}>Password</label>
-            <Field type="password" name="password" id={passwordId}></Field>
+            <Field
+              type="password"
+              name="password"
+              id={passwordId}
+              className={css.input}
+            />
             <ErrorMessage
               className={css.errorMessage}
               name="password"

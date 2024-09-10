@@ -11,16 +11,26 @@
 }
 
 .deleteBtn {
-    display: block;
-    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     position: absolute;
-    top: 12px;
+    top: 8px;
     right: 8px;
+    background-color: inherit;
+    border: none;
+    width: 32px;
+    height: 32px;
 }
 
-.icon {
+.userIcon {
     width: 12px;
     height: 12px;
     margin-right: 8px;
+}
+
+.deleteIcon {
+    width: 24px;
+    height: 24px;
 }

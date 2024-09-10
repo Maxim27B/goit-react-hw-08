@@ -2,6 +2,7 @@ import css from './RegistrationPage.module.css';
 import * as Yup from 'yup';
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import { nanoid } from 'nanoid';
+import toast from 'react-hot-toast';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
@@ -11,8 +12,22 @@ const RegistrationPage = () => {
   const isError = useSelector(selectAuthError);
   const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(register(values));
+  const onRegister = (values, actions) => {
+    dispatch(register(values))
+      .unwrap()
+      .then(() => {
+        toast.success('Login was successful', {
+          style: {
+            border: '1px solid rgb(0, 106, 255)',
+            padding: '16px',
+            color: 'rgb(0, 106, 255)',
+          },
+          iconTheme: {
+            primary: 'rgb(0, 226, 45)',
+            secondary: '#FFFAEE',
+          },
+        });
+      });
     actions.resetForm();
   };
 
@@ -44,13 +59,13 @@ const RegistrationPage = () => {
           email: '',
           password: '',
         }}
-        onSubmit={handleSubmit}
+        onSubmit={onRegister}
         validationSchema={RegisterValidationSchema}
       >
         <Form className={css.form}>
           <div className={css.inputContainer}>
             <label htmlFor={nameId}>Name</label>
-            <Field type="text" name="name" id={nameId}></Field>
+            <Field type="text" name="name" id={nameId} className={css.input} />
             <ErrorMessage
               className={css.errorMessage}
               name="name"
@@ -59,7 +74,12 @@ const RegistrationPage = () => {
           </div>
           <div className={css.inputContainer}>
             <label htmlFor={emailId}>Email</label>
-            <Field type="text" name="email" id={emailId}></Field>
+            <Field
+              type="text"
+              name="email"
+              id={emailId}
+              className={css.input}
+            />
             <ErrorMessage
               className={css.errorMessage}
               name="email"
@@ -68,7 +88,12 @@ const RegistrationPage = () => {
           </div>
           <div className={css.inputContainer}>
             <label htmlFor={passwordId}>Password</label>
-            <Field type="password" name="password" id={passwordId}></Field>
+            <Field
+              type="password"
+              name="password"
+              id={passwordId}
+              className={css.input}
+            />
             <ErrorMessage
               className={css.errorMessage}
               name="password"

@@ -1,11 +1,7 @@
 import css from './Homepage.module.css';
 
 const Homepage = () => {
-  return (
-    <div className={css.pageContainer}>
-      <h1>Phonebook</h1>
-    </div>
-  );
+  return <h1 className={css.pageContainer}>Contact manager welcome page</h1>;
 };
 
 export default Homepage;
