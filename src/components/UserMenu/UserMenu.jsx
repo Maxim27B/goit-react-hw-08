@@ -1,6 +1,4 @@
 import css from './UserMenu.module.css';
-import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { logout } from '../../redux/auth/operations';
 import toast from 'react-hot-toast';
@@ -32,14 +30,6 @@ const UserMenu = () => {
 
   return (
     <>
-      <NavLink
-        to="/contacts"
-        className={({ isActive }) => {
-          return clsx(css.link, isActive && css.active);
-        }}
-      >
-        Contacts
-      </NavLink>
       <p className={css.welcomeText}>Hello, {user.name}</p>
       <button type="button" onClick={onLogout} className={css.logoutBtn}>
         Logout
